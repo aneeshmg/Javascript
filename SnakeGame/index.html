@@ -54,6 +54,7 @@
         LOW = 1000/10;
         MED = 1000/15;
         HI = 1000/20;
+        defaultColor = "lime"
         config = {
             speed: LOW,
             snakeColor: randomColor(false),
@@ -65,7 +66,7 @@
         xPosition = yPosition = 10; // Player positions
         gridSize = tileCount = 26; // grid size & tile count
         appleX = appleY = 15; // apple x & y
-        trail = [];
+        trail = []; // to remember the path of the snake
         tail = 5; // to grow the tail
         tick = 0; // a counter
 
@@ -102,6 +103,7 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.fillStyle = config.snakeColor;
+            // TODO: upgrade speed and randomize color if score crosses some value
             // Uncomment below for colorful snake!
             //ctx.fillStyle = randomColor();
             for(var i = 0; i < trail.length; i++) {
@@ -160,7 +162,7 @@
         }
         function randomColor(val = true) {
             if(!val) 
-                return "lime";
+                return defaultColor;
             else {
                 let r = hexmap(Math.floor(Math.random() * 16))
 	            let g = hexmap(Math.floor(Math.random() * 16))
@@ -170,6 +172,8 @@
             }
         }
         function hexmap(val) {
+            // Currently supporting #RGB
+            // TODO: extend it to support #RrGgBb
             if(val > 9) {
                 switch(val) {
 			        case 10: return 'a';
