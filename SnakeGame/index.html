@@ -50,17 +50,30 @@
         <div class="box" id="hi-score">High Score<div id='hi-score-value'></div></div>
     </body>
     <script>
+
+        LOW = 1000/10;
+        MED = 1000/15;
+        HI = 1000/20;
+        config = {
+            speed: LOW,
+            snakeColor: randomColor(false),
+            colorFoodInterval: 2,
+            colorFoodBonus: 5,
+            enableLog: true
+        }
+
         xPosition = yPosition = 10; // Player positions
         gridSize = tileCount = 26; // grid size & tile count
         appleX = appleY = 15; // apple x & y
         trail = [];
         tail = 5; // to grow the tail
+        tick = 0; // a counter
 
         function init() {
             canvas = document.getElementById('game-canvas');
             ctx = canvas.getContext('2d');
             document.addEventListener('keydown', keyPush);
-            setInterval(game, 1000/15);
+            setInterval(game, config.speed);
             score = 0;
             hiScore = 0;
             scoreBox = document.getElementById('score-value');
@@ -88,7 +101,9 @@
             ctx.fillStyle = "#000";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = "lime";
+            ctx.fillStyle = config.snakeColor;
+            // Uncomment below for colorful snake!
+            //ctx.fillStyle = randomColor();
             for(var i = 0; i < trail.length; i++) {
                 ctx.fillRect(trail[i].x * gridSize, trail[i].y * gridSize, gridSize - 2, gridSize - 2);
                 if(trail[i].x == xPosition && trail[i].y == yPosition) {
@@ -112,12 +127,14 @@
 
             if(appleX == xPosition && appleY == yPosition) {
                 tail++;
-                score++;
+                tick % config.colorFoodInterval == 0? score += config.colorFoodBonus : score++;
+                tick++;
                 appleX = Math.floor(Math.random() * tileCount);
                 appleY = Math.floor(Math.random() * tileCount);
             }
 
-            ctx.fillStyle = "red";
+            // Every Nth food is colourful!
+            tick % config.colorFoodInterval == 0? ctx.fillStyle = "red" : ctx.fillStyle = randomColor();
             ctx.fillRect(appleX * gridSize, appleY * gridSize, gridSize - 2, gridSize - 2);
         }
         function keyPush(event) {
@@ -140,6 +157,30 @@
                     break;
                 
             }
+        }
+        function randomColor(val = true) {
+            if(!val) 
+                return "lime";
+            else {
+                let r = hexmap(Math.floor(Math.random() * 16))
+	            let g = hexmap(Math.floor(Math.random() * 16))
+	            let b = hexmap(Math.floor(Math.random() * 16))
+	
+	            return `#${r}${g}${b}`
+            }
+        }
+        function hexmap(val) {
+            if(val > 9) {
+                switch(val) {
+			        case 10: return 'a';
+			        case 11: return 'b';
+			        case 12: return 'c';
+			        case 13: return 'd';
+			        case 14: return 'e';
+			        case 15: return 'f';
+		        }
+	        }
+	        else return val;
         }
         document.onload = init;
     </script>
