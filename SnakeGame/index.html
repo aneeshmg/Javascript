@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SnakeGame</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            body{
+                background-color: #222;
+                font-family: monospace;
+            }
+            header {
+                color: #efefef;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                font-size: 20px;
+            }
+            canvas {
+                border: 1px solid #fff;
+                background-color: #000;
+            }
+            .box {
+                position: absolute;
+                top: 10%;
+                border: 1px solid #fff;
+                color: #fff;
+                padding: 5px;
+                width: 10%;
+                height: 10%;
+                text-align: center;
+                font-size: 20px;
+                background-color: #000;
+            }
+            #score {
+                left: 7%;
+            }
+            #hi-score {
+                left: 82%;
+            }
+        </style>
+    </head>
+    <body>
+        <center>
+            <header>A crude snake game!</header>
+            <canvas id='game-canvas' width="676" height="676"></canvas>
+        </center>
+        <div class="box" id="score">Score<div id='score-value'></div></div>
+        <div class="box" id="hi-score">High Score<div id='hi-score-value'></div></div>
+    </body>
+    <script>
+        xPosition = yPosition = 10; // Player positions
+        gridSize = tileCount = 26; // grid size & tile count
+        appleX = appleY = 15; // apple x & y
+        trail = [];
+        tail = 5; // to grow the tail
+
+        function init() {
+            canvas = document.getElementById('game-canvas');
+            ctx = canvas.getContext('2d');
+            document.addEventListener('keydown', keyPush);
+            setInterval(game, 1000/15);
+            score = 0;
+            hiScore = 0;
+            scoreBox = document.getElementById('score-value');
+            hiScoreBox = document.getElementById('hi-score-value');
+            scoreBox.innerText = score;
+            hiScoreBox.innerText = hiScore;
+        }
+
+        xVelocity = yVelocity = 0;
+        function game() {
+            xPosition += xVelocity;
+            yPosition += yVelocity;
+            if(xPosition < 0) {
+                xPosition = tileCount - 1;
+            }
+            if(xPosition > tileCount - 1) {
+                xPosition = 0;
+            }
+            if(yPosition < 0) {
+                yPosition = tileCount - 1;
+            }
+            if(yPosition > tileCount - 1) {
+                yPosition = 0;
+            }
+            ctx.fillStyle = "#000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "lime";
+            for(var i = 0; i < trail.length; i++) {
+                ctx.fillRect(trail[i].x * gridSize, trail[i].y * gridSize, gridSize - 2, gridSize - 2);
+                if(trail[i].x == xPosition && trail[i].y == yPosition) {
+                    if(score > hiScore) {
+                        hiScore = score;
+                        hiScoreBox.innerText = hiScore;
+                    }
+                    score = 0;
+                    tail = 5;
+                }
+            }
+            trail.push({
+                x : xPosition,
+                y : yPosition
+            })
+            scoreBox.innerText = score;
+
+            while(trail.length > tail) {
+                trail.shift();
+            }
+
+            if(appleX == xPosition && appleY == yPosition) {
+                tail++;
+                score++;
+                appleX = Math.floor(Math.random() * tileCount);
+                appleY = Math.floor(Math.random() * tileCount);
+            }
+
+            ctx.fillStyle = "red";
+            ctx.fillRect(appleX * gridSize, appleY * gridSize, gridSize - 2, gridSize - 2);
+        }
+        function keyPush(event) {
+            switch(event.keyCode) {
+                case 37 :
+                    xVelocity = -1;
+                    yVelocity = 0;
+                    break;
+                case 38 :
+                    xVelocity = 0;
+                    yVelocity = -1;
+                    break;
+                case 39 :
+                    xVelocity = 1;
+                    yVelocity = 0;
+                    break;
+                case 40 :
+                    xVelocity = 0;
+                    yVelocity = 1;
+                    break;
+                
+            }
+        }
+        document.onload = init;
+    </script>
+</html>
