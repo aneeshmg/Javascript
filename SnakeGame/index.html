@@ -54,11 +54,19 @@
         LOW = 1000/10;
         MED = 1000/15;
         HI = 1000/20;
-        defaultColor = "lime"
+        defaultColor = "magenta"
+        interval = null;
+        gameMode = null;
+        availableModes = {
+            SLOW: 0,
+            MED: 1,
+            FAST: 2
+        }
+        
         config = {
             speed: LOW,
             snakeColor: randomColor(false),
-            colorFoodInterval: 2,
+            colorFoodInterval: 5,
             colorFoodBonus: 5,
             enableLog: true
         }
@@ -74,9 +82,10 @@
             canvas = document.getElementById('game-canvas');
             ctx = canvas.getContext('2d');
             document.addEventListener('keydown', keyPush);
-            setInterval(game, config.speed);
+            interval = setInterval(game, config.speed);
             score = 0;
             hiScore = 0;
+            gameMode = availableModes.SLOW;
             scoreBox = document.getElementById('score-value');
             hiScoreBox = document.getElementById('hi-score-value');
             scoreBox.innerText = score;
@@ -102,10 +111,9 @@
             ctx.fillStyle = "#000";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = config.snakeColor;
-            // TODO: upgrade speed and randomize color if score crosses some value
-            // Uncomment below for colorful snake!
-            //ctx.fillStyle = randomColor();
+            // Colourful snake in a high speed game
+            gameMode != availableModes.FAST? ctx.fillStyle = config.snakeColor : ctx.fillStyle = randomColor();
+            
             for(var i = 0; i < trail.length; i++) {
                 ctx.fillRect(trail[i].x * gridSize, trail[i].y * gridSize, gridSize - 2, gridSize - 2);
                 if(trail[i].x == xPosition && trail[i].y == yPosition) {
@@ -129,8 +137,18 @@
 
             if(appleX == xPosition && appleY == yPosition) {
                 tail++;
-                tick % config.colorFoodInterval == 0? score += config.colorFoodBonus : score++;
+                (tick - 1) % config.colorFoodInterval == 0? score += config.colorFoodBonus : score++;
                 tick++;
+                if(score > 20 && gameMode == availableModes.SLOW) {
+                    clearInterval(interval);
+                    interval = setInterval(game, MED);
+                    gameMode = availableModes.MED;
+                }
+                if(score > 30 && gameMode == availableModes.MED) {
+                    clearInterval(interval);
+                    interval = setInterval(game, HI);
+                    gameMode = availableModes.FAST;
+                }
                 appleX = Math.floor(Math.random() * tileCount);
                 appleY = Math.floor(Math.random() * tileCount);
             }
@@ -164,16 +182,17 @@
             if(!val) 
                 return defaultColor;
             else {
+                let R = hexmap(Math.floor(Math.random() * 16))
                 let r = hexmap(Math.floor(Math.random() * 16))
+                let G = hexmap(Math.floor(Math.random() * 16))
 	            let g = hexmap(Math.floor(Math.random() * 16))
-	            let b = hexmap(Math.floor(Math.random() * 16))
+	            let B = hexmap(Math.floor(Math.random() * 16))
+                let b = hexmap(Math.floor(Math.random() * 16))
 	
-	            return `#${r}${g}${b}`
+	            return `#${R}${r}${G}${g}${B}${b}`
             }
         }
         function hexmap(val) {
-            // Currently supporting #RGB
-            // TODO: extend it to support #RrGgBb
             if(val > 9) {
                 switch(val) {
 			        case 10: return 'a';
@@ -186,6 +205,6 @@
 	        }
 	        else return val;
         }
-        document.onload = init;
+        document.onload = init();
     </script>
 </html>
