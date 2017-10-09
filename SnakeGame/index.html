@@ -121,11 +121,7 @@
                         hiScore = score;
                         hiScoreBox.innerText = hiScore;
                     }
-                    score = 0;
-                    tail = 5;
-                    tick = 0;
-                    clearInterval(interval);
-                    interval = setInterval(game, config.speed);
+                    resetGame();
                 }
             }
             trail.push({
@@ -140,8 +136,13 @@
 
             if(appleX == xPosition && appleY == yPosition) {
                 tail++;
+                if(tick % config.colorFoodInterval == 0) {
+                    tick == 0? score++ : score += config.colorFoodBonus;
+                }
+                else {
+                    score++;
+                }
                 tick++;
-                tick % config.colorFoodInterval == 0? score += config.colorFoodBonus : score++;
                 
                 if(score > 20 && gameMode == availableModes.SLOW) {
                     clearInterval(interval);
@@ -213,6 +214,14 @@
 		        }
 	        }
 	        else return val;
+        }
+        function resetGame() {
+            score = 0;
+            tail = 5;
+            tick = 0;
+            clearInterval(interval);
+            interval = setInterval(game, config.speed);
+            gameMode = availableModes.SLOW;
         }
         document.onload = init();
     </script>
