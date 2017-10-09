@@ -54,7 +54,7 @@
         LOW = 1000/10;
         MED = 1000/15;
         HI = 1000/20;
-        defaultColor = "magenta"
+        defaultColor = "lime"
         interval = null;
         gameMode = null;
         availableModes = {
@@ -123,6 +123,9 @@
                     }
                     score = 0;
                     tail = 5;
+                    tick = 0;
+                    clearInterval(interval);
+                    interval = setInterval(game, config.speed);
                 }
             }
             trail.push({
@@ -137,8 +140,9 @@
 
             if(appleX == xPosition && appleY == yPosition) {
                 tail++;
-                (tick - 1) % config.colorFoodInterval == 0? score += config.colorFoodBonus : score++;
                 tick++;
+                tick % config.colorFoodInterval == 0? score += config.colorFoodBonus : score++;
+                
                 if(score > 20 && gameMode == availableModes.SLOW) {
                     clearInterval(interval);
                     interval = setInterval(game, MED);
@@ -154,7 +158,12 @@
             }
 
             // Every Nth food is colourful!
-            tick % config.colorFoodInterval == 0? ctx.fillStyle = "red" : ctx.fillStyle = randomColor();
+            if(tick % config.colorFoodInterval == 0) {
+                tick == 0? ctx.fillStyle = "red" : ctx.fillStyle = randomColor();
+            }
+            else {
+                ctx.fillStyle = "red";
+            }
             ctx.fillRect(appleX * gridSize, appleY * gridSize, gridSize - 2, gridSize - 2);
         }
         function keyPush(event) {
