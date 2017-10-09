@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>WebWorker example</title>
+    </head>
+    <body>
+
+    </body>
+    <script>
+        if(window.Worker) {
+            let myWorker = new Worker('webworker.js');
+            let message = {
+                numbers : [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                operation : "add"
+            };
+            // Send message to worker
+            myWorker.postMessage(message);
+
+            // Event handler to handle reception of message from worker
+            myWorker.onmessage = (e) => {
+                console.log('Result from worker', e.data.result);
+            }
+        }
+    </script>
+</html>
