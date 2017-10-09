@@ -1,2 +1,2 @@
 Use webworker to have multithreading on the UI. 
-Concept - spawn worker thread to delegate actions/tasks to the worker which will run on its own thread, [read more](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)
+Concept - spawn worker thread to delegate actions/tasks to the worker which will run on its own thread, [read more](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) [Video example](https://www.youtube.com/watch?v=pMK-jcOAYI8)
