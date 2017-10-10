@@ -22,5 +22,6 @@ app.get('/login/:num', (req, res) => {
         res.sendStatus(401)
 })
 
-
 app.listen(3000)
+
+module.exports = app
