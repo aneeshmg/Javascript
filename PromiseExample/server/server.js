@@ -6,6 +6,9 @@ const app = require('express')()
 app.get('/', (req, res) => {
     res.send('Working...')
 })
+app.get('/_status', (req, res) => {
+    res.send('Service online.')
+})
 app.get('/handshake', (req, res) => {
     let num = parseInt(Math.random() * 100)
     // Send odd number
