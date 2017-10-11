@@ -12,7 +12,10 @@ app.get('/_status', (req, res) => {
 app.get('/handshake', (req, res) => {
     let num = parseInt(Math.random() * 100)
     // Send odd number
-    res.json({num: num % 2 == 0? num + 1 : num})
+    const response = {
+        number : num % 2 == 0? num + 1 : num
+    }
+    res.json(response)
 })
 app.get('/login/:num', (req, res) => {
     // Condition to ensure the 'num' has only one 2 as a factor (which is to be supplied by the client!)
