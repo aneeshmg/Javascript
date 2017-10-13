@@ -2,28 +2,12 @@
 
 // Instantiating 'app' using currying!
 const app = require('express')()
+const handlers = require('./handlers')
 
-app.get('/', (req, res) => {
-    res.send('Working...')
-})
-app.get('/_status', (req, res) => {
-    res.send('Service online.')
-})
-app.get('/handshake', (req, res) => {
-    let num = parseInt(Math.random() * 100)
-    // Send odd number
-    const response = {
-        number : num % 2 == 0? num + 1 : num
-    }
-    res.json(response)
-})
-app.get('/login/:num', (req, res) => {
-    // Condition to ensure the 'num' has only one 2 as a factor (which is to be supplied by the client!)
-    if(req.params.num % 2 == 0 && (req.params.num / 2) % 2 != 0)
-        res.json({msg:"Success"})
-    else 
-        res.sendStatus(401)
-})
+app.get('/', handlers.welcome)
+app.get('/_status', handlers._status)
+app.get('/handshake', handlers.handshake)
+app.get('/login/:num', handlers.login)
 
 app.listen(3000)
 
