@@ -1,17 +1,66 @@
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>Air Tennis</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: #efefef;
+            background-color: #222;
+            font-family: monospace;
+        }
+
+        header {
+            color: #efefef;
+            padding-top: 10px;
+            padding-bottom: 5px;
+            font-size: 20px;
+        }
+
+        canvas {
+            border: 1px solid #fff;
+            background-color: #000;
+        }
+
+        .box {
+            position: absolute;
+            top: 10%;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 5px;
+            width: 10%;
+            height: 10%;
+            text-align: center;
+            font-size: 20px;
+            background-color: #000;
+        }
+
+        #human-score {
+            left: 7%;
+        }
+
+        #computer-score {
+            left: 82%;
         }
     </style>
 
 </head>
 
 <body>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <center>
+        <header>AirTennis!</header>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+    </center>
+    <div class="box" id="human-score">Your Score
+        <div id='human-score-value'></div>
+    </div>
+    <div class="box" id="computer-score">Computer's Score
+        <div id='computer-score-value'></div>
+    </div>
 </body>
 <script>
     var canvas;
@@ -27,12 +76,15 @@
     var player2Y = 250;
     const PADDLE_HEIGHT = 150;
     const PADDLE_THICKNESS = 10;
-    const POINTS_TO_WIN = 3;
+    const POINTS_TO_WIN = 2;
 
     var gameWon;
 
     var player1Score;
     var player2Score;
+
+    var humanScoreBox;
+    var computerScoreBox;
 
     function init() {
         canvas = document.getElementById("gameCanvas");
@@ -41,6 +93,11 @@
         gameWon = false;
         player1Score = 0;
         player2Score = 0;
+
+        humanScoreBox = document.getElementById('human-score-value');
+        computerScoreBox = document.getElementById('computer-score-value');
+        humanScoreBox.innerText = player1Score;
+        computerScoreBox.innerText = player2Score;
 
         intervalKeeper = setInterval(game, 1000 / frameRate);
 
@@ -67,7 +124,8 @@
         if (gameWon) {
             announceWinner();
             canvasContext.fillStyle = "white";
-            canvasContext.fillText("Click to continue...", 100, 100);
+            canvasContext.font = "20px monospace";
+            canvasContext.fillText("Click to continue...", canvas.width / 2 - 105, canvas.height - 30);
             return;
         }
 
@@ -105,7 +163,7 @@
                 ballSpeedY = deltaY * 0.35;
             } else {
                 player2Score++;
-                console.log('player2:', player2Score)
+                computerScoreBox.innerText = player2Score;
                 resetBall();
             }
         }
@@ -122,7 +180,7 @@
                 ballSpeedY = deltaY * 0.35;
             } else {
                 player1Score++;
-                console.log('player1:', player1Score)
+                humanScoreBox.innerText = player1Score;
                 resetBall();
             }
         }
@@ -136,7 +194,7 @@
     }
 
     function drawNet(thickness, length) {
-        for (let i = 0; i < canvas.height; i += 40)
+        for (let i = 10; i < canvas.height; i += 40)
             drawBox(canvas.width / 2 - 1, i, thickness, length, "white");
     }
 
@@ -176,10 +234,14 @@
 
     function announceWinner() {
         clearInterval(intervalKeeper);
-        if (player1Score >= POINTS_TO_WIN)
-            console.log('You won')
-        if (player2Score >= POINTS_TO_WIN)
-            console.log('Computer wins')
+        canvasContext.fillStyle = "white";
+        canvasContext.font = "25px monospace"
+        if (player1Score >= POINTS_TO_WIN) {
+            canvasContext.fillText("You win!", canvas.width / 2 - 55, 200);
+        }
+        if (player2Score >= POINTS_TO_WIN) {
+            canvasContext.fillText("Computer wins!", canvas.width / 2 - 100, 200);
+        }
     }
 
     function restartGame() {
@@ -204,7 +266,7 @@
         };
     }
 
-    //window.onload = Init;
+    window.onload = init;
 </script>
 
 </html>
