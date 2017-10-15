@@ -17,29 +17,142 @@
     var canvas;
     var canvasContext;
     var ballX = 50;
-    var ballSpeedX = 5;
-    window.onload = function () {
+    var ballY = 50;
+    var ballSpeedX = 15;
+    var ballSpeedY = 15;
+
+    var player1Y = 250;
+    var player2Y = 250;
+    const PADDLE_HEIGHT = 150;
+    const PADDLE_THICKNESS = 10;
+
+    var player1Score = 0;
+    var player2Score = 0;
+
+    function init() {
         canvas = document.getElementById("gameCanvas");
         canvasContext = canvas.getContext('2d');
+
         var frameRate = 30;
+
         setInterval(function () {
-            drawEverything();
             moveEverything();
+            drawEverything();
         }, 1000 / frameRate);
+
+        canvas.addEventListener("mousemove", function (event) {
+            var mousePos = findMouse(event);
+            player1Y = mousePos.y - PADDLE_HEIGHT / 2;
+        })
     }
 
     function drawEverything() {
-        canvasContext.fillStyle = "black";
-        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-        canvasContext.fillStyle = "white";
-        canvasContext.fillRect(0, 210, 10, 100);
-        canvasContext.fillStyle = "red";
-        canvasContext.fillRect(ballX, 100, 10, 10);
+        // Fill screen with black
+        drawBox(0, 0, canvas.width, canvas.height, "black");
+
+        // Draw the paddles
+        // This is player paddle
+        drawBox(0, player1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
+
+        // This is for computer's paddle
+        drawBox(canvas.width - PADDLE_THICKNESS, player2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "lime");
+
+        // Draw the ball
+        drawBall(ballX, ballY, 20, "red")
     }
 
     function moveEverything() {
+        // How to move the ball
         ballX += ballSpeedX;
+        ballY += ballSpeedY;
+
+        computerPlays();
+
+        // Control horizontal movement
+        if (ballX < 0) {
+            // The following line will not reset the ball but make it bounce off the edge but we want it to die and only bounce off the paddle
+            //ballSpeedX = -ballSpeedX;
+            // This condition checks if the ball is hitting the player1 paddle
+            if (ballY > player1Y && ballY < player1Y + PADDLE_HEIGHT) {
+                // This will only change direction of ball
+                ballSpeedX = -ballSpeedX;
+                // This will change speed of ball based on where the ball strikes the paddle- center => less speed change & closer to the edges => more speed change, hence the 'delta'
+                var deltaY = ballY - (player1Y + PADDLE_HEIGHT / 2);
+                // 0.35 is a conversion factor to change from pixel difference into speed, play with it
+                ballSpeedY = deltaY * 0.35;
+            } else {
+                ++player2Score;
+                resetBall();
+            }
+        }
+        if (ballX > canvas.width) {
+            // The following line will not reset the ball but make it bounce off the edge but we want it to die and only bounce off the paddle
+            //ballSpeedX = -ballSpeedX;
+            // This condition checks if the ball is hitting the player2 paddle
+            if (ballY > player2Y && ballY < player2Y + PADDLE_HEIGHT) {
+                // This will only change direction of ball
+                ballSpeedX = -ballSpeedX;
+                // This will change speed of ball based on where the ball strikes the paddle- center => less speed change & closer to the edges => more speed change, hence the 'delta'
+                var deltaY = ballY - (player2Y + PADDLE_HEIGHT / 2);
+                // 0.35 is a conversion factor to change from pixel difference into speed, play with it
+                ballSpeedY = deltaY * 0.35;
+            } else {
+                ++player1Score;
+                resetBall();
+            }
+        }
+        // Control vertical movement
+        if (ballY < 0) {
+            ballSpeedY = -ballSpeedY;
+        }
+        if (ballY > canvas.height) {
+            ballSpeedY = -ballSpeedY;
+        }
     }
+
+    function drawBall(centerX, centerY, radius, color) {
+        canvasContext.fillStyle = color;
+        canvasContext.beginPath();
+        canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+        canvasContext.fill();
+    }
+
+    function drawBox(leftX, topY, width, height, color) {
+        canvasContext.fillStyle = color;
+        canvasContext.fillRect(leftX, topY, width, height);
+    }
+
+    function resetBall() {
+        // Re-spawn ball at the center
+        ballX = canvas.width / 2;
+        ballY = canvas.height / 2;
+
+        // Change direction of ball movement
+        ballSpeedX = -ballSpeedX;
+    }
+
+    function computerPlays() {
+        let player2YCenter = player2Y + (PADDLE_HEIGHT / 2);
+        if (player2YCenter < ballY - 35) {
+            player2Y += 6;
+        } else if (player2YCenter > ballY + 35) {
+            player2Y -= 6;
+        }
+    }
+
+    function findMouse(event) {
+        var rect = canvas.getBoundingClientRect();
+        var root = document.documentElement;
+        var mouseX = event.clientX - rect.left - root.scrollLeft;
+        var mouseY = event.clientY - rect.top - root.scrollTop;
+
+        return {
+            x: mouseX,
+            y: mouseY
+        };
+    }
+
+    //window.onload = Init;
 </script>
 
 </html>
