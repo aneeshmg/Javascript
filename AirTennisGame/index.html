@@ -16,6 +16,8 @@
 <script>
     var canvas;
     var canvasContext;
+    var IntervalKeeper;
+    var frameRate = 30;
     var ballX = 50;
     var ballY = 50;
     var ballSpeedX = 15;
@@ -25,43 +27,62 @@
     var player2Y = 250;
     const PADDLE_HEIGHT = 150;
     const PADDLE_THICKNESS = 10;
+    const POINTS_TO_WIN = 3;
 
-    var player1Score = 0;
-    var player2Score = 0;
+    var gameWon;
+
+    var player1Score;
+    var player2Score;
 
     function init() {
         canvas = document.getElementById("gameCanvas");
         canvasContext = canvas.getContext('2d');
 
-        var frameRate = 30;
+        gameWon = false;
+        player1Score = 0;
+        player2Score = 0;
 
-        setInterval(function () {
-            moveEverything();
-            drawEverything();
-        }, 1000 / frameRate);
+        intervalKeeper = setInterval(game, 1000 / frameRate);
 
         canvas.addEventListener("mousemove", function (event) {
             var mousePos = findMouse(event);
             player1Y = mousePos.y - PADDLE_HEIGHT / 2;
         })
+
+        canvas.addEventListener("mousedown", handleClick);
+    }
+
+    function game() {
+        drawEverything();
+        moveEverything();
     }
 
     function drawEverything() {
         // Fill screen with black
         drawBox(0, 0, canvas.width, canvas.height, "black");
 
+        // If game is won, stop till user clicks
+        if (gameWon) {
+            announceWinner()
+            canvasContext.fillStyle = "white";
+            canvasContext.fillText("Click to continue...", 100, 100);
+            return;
+        }
+
         // Draw the paddles
         // This is player paddle
         drawBox(0, player1Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
 
         // This is for computer's paddle
-        drawBox(canvas.width - PADDLE_THICKNESS, player2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "lime");
+        drawBox(canvas.width - PADDLE_THICKNESS, player2Y, PADDLE_THICKNESS, PADDLE_HEIGHT, "white");
 
         // Draw the ball
-        drawBall(ballX, ballY, 20, "red")
+        drawBall(ballX, ballY, 10, "red")
     }
 
     function moveEverything() {
+        // If game is won, stop till user clicks
+        if (gameWon) return;
         // How to move the ball
         ballX += ballSpeedX;
         ballY += ballSpeedY;
@@ -81,7 +102,8 @@
                 // 0.35 is a conversion factor to change from pixel difference into speed, play with it
                 ballSpeedY = deltaY * 0.35;
             } else {
-                ++player2Score;
+                player2Score++;
+                console.log('player2:', player2Score)
                 resetBall();
             }
         }
@@ -97,7 +119,8 @@
                 // 0.35 is a conversion factor to change from pixel difference into speed, play with it
                 ballSpeedY = deltaY * 0.35;
             } else {
-                ++player1Score;
+                player1Score++;
+                console.log('player1:', player1Score)
                 resetBall();
             }
         }
@@ -123,6 +146,10 @@
     }
 
     function resetBall() {
+        // Check who won
+        if (player1Score >= POINTS_TO_WIN || player2Score >= POINTS_TO_WIN) {
+            gameWon = true;
+        }
         // Re-spawn ball at the center
         ballX = canvas.width / 2;
         ballY = canvas.height / 2;
@@ -137,6 +164,24 @@
             player2Y += 6;
         } else if (player2YCenter > ballY + 35) {
             player2Y -= 6;
+        }
+    }
+
+    function announceWinner() {
+        clearInterval(intervalKeeper);
+        if(player1Score >= POINTS_TO_WIN)
+            console.log('Player 1 wins')
+        if(player2Score >= POINTS_TO_WIN)
+            console.log('Player 2 wins')
+    }
+
+    function restartGame() {
+        init();
+    }
+
+    function handleClick(e) {
+        if (gameWon) {
+            restartGame();
         }
     }
 
