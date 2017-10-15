@@ -15,7 +15,7 @@ let sayHiMixin = {
 //     }
 // }
 // Using 'function'
-let User = function(name) {
+let User = function (name) {
     this.name = name
 }
 // Second - 'Mix-in' the methods of the mixin to this newly defined class
