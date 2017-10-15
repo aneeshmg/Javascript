@@ -60,10 +60,12 @@
     function drawEverything() {
         // Fill screen with black
         drawBox(0, 0, canvas.width, canvas.height, "black");
+        // Draw net in the middle of thickness N
+        drawNet(2, 20);
 
         // If game is won, stop till user clicks
         if (gameWon) {
-            announceWinner()
+            announceWinner();
             canvasContext.fillStyle = "white";
             canvasContext.fillText("Click to continue...", 100, 100);
             return;
@@ -133,6 +135,11 @@
         }
     }
 
+    function drawNet(thickness, length) {
+        for (let i = 0; i < canvas.height; i += 40)
+            drawBox(canvas.width / 2 - 1, i, thickness, length, "white");
+    }
+
     function drawBall(centerX, centerY, radius, color) {
         canvasContext.fillStyle = color;
         canvasContext.beginPath();
@@ -169,10 +176,10 @@
 
     function announceWinner() {
         clearInterval(intervalKeeper);
-        if(player1Score >= POINTS_TO_WIN)
-            console.log('Player 1 wins')
-        if(player2Score >= POINTS_TO_WIN)
-            console.log('Player 2 wins')
+        if (player1Score >= POINTS_TO_WIN)
+            console.log('You won')
+        if (player2Score >= POINTS_TO_WIN)
+            console.log('Computer wins')
     }
 
     function restartGame() {
