@@ -9,6 +9,7 @@ const userAddress = [
     "state, etc"
 ]
 let greeting = null
+let address = null
 
 function generateGreeting(title) {
     return `${title}. ${this.firstname} ${this.lastname}`
@@ -32,6 +33,12 @@ greeting = generateGreeting.call(User, "Mr")
 console.log('Using "call()"', greeting)
 
 // Usage of 'apply()'
+let anotherUser = User
 address = formatAddress.apply(User, userAddress)
 console.log(address)
 console.log(User)
+
+// Usage of 'bind()'
+let conjureAddress = formatAddress.bind(anotherUser)
+address = conjureAddress(userAddress)
+console.log(anotherUser)
