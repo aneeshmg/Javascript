@@ -42,3 +42,5 @@ console.log(User)
 let conjureAddress = formatAddress.bind(anotherUser)
 address = conjureAddress(userAddress)
 console.log(anotherUser)
+
+// Refer this link for more info on 'bind()' - https://stackoverflow.com/questions/15455009/javascript-call-apply-vs-bind
