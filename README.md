@@ -1,5 +1,7 @@
-Javascript Projects
+Javascript stuff
 ================================================================
+_Some interesting/uninteresting stuff written in JS to grok it_
 
-### SnakeGame
-Get the game - ```wget https://raw.githubusercontent.com/aneeshmg/Javascript/master/SnakeGame/index.html```
+* Play the [SnakeGame](http://aneeshmg.github.io/Javascript/SnakeGame/)
+* Play [AirTennis](http://aneeshmg.github.io/Javascript/AirTennisGame/)
+
