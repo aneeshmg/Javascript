@@ -6,16 +6,27 @@ let sockets = {}
 
 const server = require("net").createServer()
 
+const timestamp = () => {
+    const now = new Date()
+    return `${now.getHours()}:${now.getMinutes()}`
+}
+
 server.on("connection", socket => {
     socket.id = counter++
-    sockets[socket.id] = socket
 
     console.log("Client connected..")
-    socket.write("Welcome fella\n")
+    socket.write("Please type your name fella: ")
 
     socket.on("data", data => {
-        Object.entries(sockets).forEach(([/*key*/, element]) => {
-            element.write(`${socket.id}: `)
+        if(!sockets[socket.id]) {
+            socket.name = data.toString().trim()
+            socket.write(`Welcome ${socket.name}\n`)
+            sockets[socket.id] = socket
+            return
+        }
+        Object.entries(sockets).forEach(([key, element]) => {
+            if(socket.id == key) return
+            element.write(`${socket.name}: ${timestamp()} `)
             element.write(data)
         })
     })
