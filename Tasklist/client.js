@@ -15,6 +15,9 @@ server.on("response", response => {
     process.stdout.write("\n\> ")
 })
 
+let command, args
+
 rl.on("line", input => {
-    client.emit("command", input)
+    [command, ...args] = input.split(" ")
+    client.emit("command", command, args)
 })
