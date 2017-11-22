@@ -1,6 +1,6 @@
 // Rotate an array 'k' times
 
-const rotate = (a, k) => {
+const rotateRight = (a, k) => {
     k = k % a.length
     return new Promise(resolve => {
         if (k == 0) resolve(a)
@@ -19,4 +19,26 @@ const rotate = (a, k) => {
     })
 }
 
-module.exports = rotate
+const rotateLeft = (a, k) => {
+    k = k % a.length
+    return new Promise(resolve => {
+        if (k == 0) resolve(a)
+        else {
+            let b = []
+            while(k > 0) {
+                for(let i = 0; i < a.length - 1; i++) {
+                    b[i] = a[i + 1]
+                }
+                b[a.length - 1] = a[0]
+                a = b.slice(0)
+                k--
+            }
+            resolve(b)
+        }
+    })
+}
+
+module.exports = {
+    Right: rotateRight,
+    Left: rotateLeft
+}
