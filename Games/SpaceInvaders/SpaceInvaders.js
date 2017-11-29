@@ -20,7 +20,8 @@ function setup() {
 }
 
 function draw() {
-    background(51)
+    background(0)
+
 
     let deltaY = random(speed * 5)
     for (let i = aliens.length - 1; i >= 0; i--) {
