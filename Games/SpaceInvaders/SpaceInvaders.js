@@ -45,8 +45,8 @@ function draw() {
 }
 
 function keyPressed() {
-    
-    if(keyCode === 32) {
+
+    if (keyCode === 32) {
         shuttle.shoot()
     }
 }
@@ -101,15 +101,17 @@ Saucer.prototype.update = function (allShips) {
         } else {
 
             this.lazers.splice(i, 1)
-            return;
+            continue;
         }
 
         for (let j = 0; j < allShips.length; j++) {
 
-            if (this.lazers[i].hits(allShips[i])) {
+            if(this.lazers[i].hits(allShips[j]) && this.lazers[i].enemy !== allShips[j].enemy) {
 
-                allShips[i].destroy()
+                allShips[j].intact = false
+                // this.lazers.splice(i, 1)
             }
+
         }
 
     }
@@ -140,7 +142,6 @@ Saucer.prototype.destroy = function () {
 Saucer.prototype.shoot = function () {
 
     this.lazers.push(new Lazer(this.pos.x, this.pos.y, this.enemy ? 5 : -5, rCol(), this.enemy))
-    console.log(this.lazers)
 }
 
 Saucer.prototype.move = function (x, y) {
@@ -161,6 +162,7 @@ function Lazer(x, y, yV, color, enemy) {
 Lazer.prototype.update = function () {
 
     this.pos.y += this.yV
+    this.onScreen = !(this.pos.y < 0 || this.pos.y > height)
 }
 
 Lazer.prototype.draw = function () {
@@ -171,7 +173,17 @@ Lazer.prototype.draw = function () {
     point(this.pos.x, this.pos.y)
 }
 
-Lazer.prototype.hits = function() {
+Lazer.prototype.hits = function (saucer) {
 
-    // TODO: continue...
+    let distance = dist(this.pos.x, this.pos.y, saucer.pos.x, saucer.pos.y)
+
+    return distance < saucer.size
+}
+
+function endGame() {
+    noLoop()
+    textSize(100)
+    fill(255)
+    noStroke()
+
 }
