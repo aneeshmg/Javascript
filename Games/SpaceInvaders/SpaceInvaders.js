@@ -109,7 +109,7 @@ Saucer.prototype.update = function (allShips) {
             if(this.lazers[i].hits(allShips[j]) && this.lazers[i].enemy !== allShips[j].enemy) {
 
                 allShips[j].intact = false
-                // this.lazers.splice(i, 1)
+                this.lazers[i].onScreen = false
             }
 
         }
