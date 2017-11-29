@@ -1,9 +1,12 @@
 let shuttle
 let aliens = []
 let score
+let hiScore = 0
 let speed
 let movement
-const COOLDOWN = 30
+const COOLDOWN = 10
+let scoreBox
+let hiScoreBox
 
 //TODO: refactoring...
 
@@ -17,6 +20,11 @@ function setup() {
     movement = 0
 
     textAlign(CENTER)
+
+    scoreBox = document.getElementById('score-value')
+    hiScoreBox = document.getElementById('hi-score-value')
+    scoreBox.innerText = score;
+    hiScoreBox.innerText = hiScore;
 }
 
 function draw() {
@@ -30,8 +38,8 @@ function draw() {
         if (Math.floor(aliens[i].pos.y) > height - 55)
             endGame()
 
-        if (random() < aliens[i].shape * 0.0001)
-            aliens[i].shoot()
+        if (random() < aliens[i].shape * 0.0005)
+            aliens[i].shoot() // the condition above controls the frequency of shooting
 
         if (aliens[i].intact) {
 
@@ -62,10 +70,7 @@ function draw() {
         endGame()
     }
 
-    textSize(30)
-    fill(255)
-    noStroke()
-    text(score, width / 2, 30)
+    scoreBox.innerText = score;
 
     handleKeys()
 }
@@ -94,7 +99,7 @@ function initFleet(fleetWidth, fleetHeight, size) {
     let fleet = []
 
     const xOffset = (width - (size * fleetWidth * 2)) / 2
-    const yOffset = height / 2
+    const yOffset = height / 4
 
     for (let x = 0; x < fleetWidth; x++) {
         for (let y = 0; y < fleetHeight; y++) {
@@ -231,5 +236,18 @@ function endGame() {
     fill(255)
     noStroke()
 
+    if(score > hiScore) {
+        hiScore = score;
+        hiScoreBox.innerText = hiScore;
+    }
+
     text("Game Over!", width / 2, height / 2);
+
+    if(confirm("Spaceshuttle destroyed!!\nRestart game?")) {
+        setup()
+        loop()
+        draw()
+    } else {
+        noLoop()
+    }
 }
