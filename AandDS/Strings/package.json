@@ -1,0 +1,10 @@
+{
+  "name": "strings",
+  "version": "1.0.0",
+  "description": "Programs on strings",
+  "author": "Aneesh MG",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^21.2.1"
+  }
+}
