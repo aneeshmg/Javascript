@@ -1,13 +1,15 @@
 let shuttle
 let aliens = []
 let score
+let speed
 
 function setup() {
     createCanvas(600, 400)
     shuttle = new Saucer(width / 2, height - 20, 20, 3, rCol(), false)
 
-    aliens = initFleet(10, 3, 20)
+    aliens = initFleet(10, 1, 20)
     score = 0
+    speed = 0.01
 
     textAlign(CENTER)
 }
@@ -15,12 +17,12 @@ function setup() {
 function draw() {
     background(51)
 
-    let deltaY = random(0.02)
+    let deltaY = random(speed * 5)
     for (let i = aliens.length - 1; i >= 0; i--) {
 
         if (aliens[i].intact) {
 
-            aliens[i].move(sin(frameCount * 0.01) * 0.3, deltaY)
+            aliens[i].move(sin(frameCount * speed) * 0.3, deltaY)
 
             aliens[i].update(aliens.concat(shuttle))
             aliens[i].draw()
@@ -29,6 +31,11 @@ function draw() {
             score += (aliens[i].enemy) ? aliens[i].shape : 0
             aliens.splice(i, 1)
         }
+    }
+
+    if(aliens.length < 1) {
+        speed += 0.01
+        aliens = initFleet(10, speed * 100, 20)
     }
 
     shuttle.update(aliens.concat(shuttle))
@@ -42,6 +49,17 @@ function draw() {
     fill(255)
     noStroke()
     text(score, width / 2, 30)
+
+    handleKeys()
+}
+
+function handleKeys() {
+
+    if (keyIsDown(LEFT_ARROW))
+        shuttle.move(-1, 0)
+
+    if (keyIsDown(RIGHT_ARROW))
+        shuttle.move(1, 0)
 }
 
 function keyPressed() {
@@ -106,10 +124,13 @@ Saucer.prototype.update = function (allShips) {
 
         for (let j = 0; j < allShips.length; j++) {
 
-            if(this.lazers[i].hits(allShips[j]) && this.lazers[i].enemy !== allShips[j].enemy) {
+            if (this.lazers[i].hits(allShips[j]) && this.lazers[i].enemy !== allShips[j].enemy) {
 
                 allShips[j].intact = false
-                this.lazers[i].onScreen = false
+                // this.lazers[i].onScreen = false
+                // need to splice instead of just setting onscreen = false, cause the lazers array would keep growing otherwise
+                this.lazers.splice(i, 1)
+                break;
             }
 
         }
