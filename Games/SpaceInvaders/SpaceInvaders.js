@@ -2,6 +2,10 @@ let shuttle
 let aliens = []
 let score
 let speed
+let movement
+const COOLDOWN = 30
+
+//TODO: refactoring...
 
 function setup() {
     createCanvas(600, 400)
@@ -10,6 +14,7 @@ function setup() {
     aliens = initFleet(10, 1, 20)
     score = 0
     speed = 0.01
+    movement = 0
 
     textAlign(CENTER)
 }
@@ -20,9 +25,16 @@ function draw() {
     let deltaY = random(speed * 5)
     for (let i = aliens.length - 1; i >= 0; i--) {
 
+
+        if (Math.floor(aliens[i].pos.y) > height - 55)
+            endGame()
+
+        if (random() < aliens[i].shape * 0.0001)
+            aliens[i].shoot()
+
         if (aliens[i].intact) {
 
-            aliens[i].move(sin(frameCount * speed) * 0.3, deltaY)
+            aliens[i].move(sin(movement * 0.01) * 0.3, deltaY)
 
             aliens[i].update(aliens.concat(shuttle))
             aliens[i].draw()
@@ -33,9 +45,13 @@ function draw() {
         }
     }
 
-    if(aliens.length < 1) {
+    movement++
+
+    if (aliens.length < 1) {
         speed += 0.01
         aliens = initFleet(10, speed * 100, 20)
+
+        movement = 0
     }
 
     shuttle.update(aliens.concat(shuttle))
@@ -88,6 +104,8 @@ function initFleet(fleetWidth, fleetHeight, size) {
     return fleet
 }
 
+
+
 function Saucer(x, y, size, shape, color, enemy) {
     this.pos = createVector(x, y)
     this.size = size
@@ -96,6 +114,8 @@ function Saucer(x, y, size, shape, color, enemy) {
     this.enemy = enemy
     this.velocity = createVector(0, 0)
     this.accleration = createVector(0, 0)
+
+    this.cooldown = 0
 
     this.lazers = []
     this.intact = true //TODO: rename to destroyed
@@ -136,6 +156,7 @@ Saucer.prototype.update = function (allShips) {
         }
 
     }
+    this.cooldown++
 }
 
 Saucer.prototype.draw = function () {
@@ -157,12 +178,12 @@ Saucer.prototype.destroy = function () {
     this.intact = false
 }
 
-
-
-
 Saucer.prototype.shoot = function () {
 
-    this.lazers.push(new Lazer(this.pos.x, this.pos.y, this.enemy ? 5 : -5, rCol(), this.enemy))
+    if (this.cooldown > COOLDOWN) {
+        this.lazers.push(new Lazer(this.pos.x, this.pos.y, this.enemy ? 3 : -5, rCol(), this.enemy))
+        this.cooldown = 0
+    }
 }
 
 Saucer.prototype.move = function (x, y) {
@@ -170,6 +191,8 @@ Saucer.prototype.move = function (x, y) {
     this.accleration = createVector(x, y)
 
 }
+
+
 
 function Lazer(x, y, yV, color, enemy) {
     this.pos = createVector(x, y)
@@ -207,4 +230,5 @@ function endGame() {
     fill(255)
     noStroke()
 
+    text("Game Over!", width / 2, height / 2);
 }
