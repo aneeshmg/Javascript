@@ -3,11 +3,7 @@
 
 module.exports = function (text) {
 
-    if(text === null || text === undefined) return text
-
-    if(text.length === 0) return ''
-
-    if(text.length === 1) return text
+    if(text === null || text === undefined || text.length === 0 || text.length === 1) return text
 
     let counts = []
 
@@ -17,7 +13,6 @@ module.exports = function (text) {
     for (let i = 0; i < text.length; i++) {
         counts[text[i]]++
     }
-    console.log(counts)
 
     const keys = Object.keys(counts).filter(e => e != ' ')
     let longest = 0
