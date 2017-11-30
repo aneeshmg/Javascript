@@ -1,4 +1,5 @@
 "use strict"
+// This uses no testing framework
 const assert = require("assert")
 const utils = require("../utils/")
 const rotator = require("./")

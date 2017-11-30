@@ -1,0 +1,14 @@
+{
+  "name": "arrays",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ArrayRotation.js",
+  "devDependencies": {
+    "jest": "^21.2.1"
+  },
+  "scripts": {
+    "test": "jest *.spec.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
