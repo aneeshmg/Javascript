@@ -2,9 +2,14 @@
 
 'use strict';
 
-exports.encrypt = (message, callback) => {
+exports.encrypt = (message, key, callback) => {
     return new Promise((res, rej) => {
-        if(callback) callback(null, message)
-        res(message)
+        let encrypted = message
+            .split('')
+            .map(e => String.fromCharCode(e.charCodeAt() + key))
+            .join('')
+        // console.log(encrypted)
+        if(callback) callback(null, encrypted)
+        res(encrypted)
     })
 }
