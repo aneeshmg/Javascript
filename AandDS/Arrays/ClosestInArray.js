@@ -8,13 +8,12 @@ module.exports = (list, number) => {
 
     /* Using functional programming */
     // Using map-reduce to pick the least of 'deltas'
-    // return Math.abs(
-    //     list
+    // const least = list
     //     .map(e => Math.abs(number - e))
-    //     .reduce((acc, curr) => acc < curr ? acc : curr) - number)
+    //     .reduce((acc, curr) => acc < curr ? acc : curr)
+    // return list.indexOf(least) !== -1? least + number : (number - least)
 
-
-    /* Using imperative approach */
+    // /* Using imperative approach */
     let deltas = []
     // First compute deltas
     for(let i = 0; i < list.length; i++)
@@ -22,7 +21,9 @@ module.exports = (list, number) => {
 
     // Pick the least of deltas ie "closest"
     let least = deltas.sort()[0]
-    let closest = Math.abs(least - number)
+    let closest1 = (number - least)
+    let closest2 = number + least
+    return list.indexOf(closest1) !== -1? closest1 : closest2
 
     return closest
 }
