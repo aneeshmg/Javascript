@@ -3,6 +3,7 @@
 const sinon = require("sinon")
 const program = require("./CaesarCipher")
 const encrypt = program.encrypt
+const decrypt = program.decrypt
 
 describe("Caesar cipher test cases", () => {
 
@@ -10,7 +11,6 @@ describe("Caesar cipher test cases", () => {
 
         it("should return promise which resolves into cipher-text", done => {
             encrypt("text", 0).then(message => {
-                console.log(message)
                 expect(message).toBe("text")
                 done()
             })
@@ -49,6 +49,16 @@ describe("Caesar cipher test cases", () => {
         it("should encrypt alphanumeric text with negative key (Promise)", done => {
             encrypt("text123", -1).then(message => {
                 expect(message).toBe("sdws012")
+                done()
+            })
+        })
+    })
+
+    describe("Test cases of the decrypt function", () => {
+        
+        it("should return promise which resolves into message-text", () => {
+            decrypt("text", 0).then(message => {
+                expect(message).toBe("text")
                 done()
             })
         })
