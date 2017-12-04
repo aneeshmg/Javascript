@@ -16,12 +16,41 @@ describe("Caesar cipher test cases", () => {
             })
         })
         
-        it("should execute callback", () => {
+        it("should execute callback with cipher-text", () => {
             let callback = sinon.spy();
             encrypt("text", 0, callback)
             expect(callback.called).toBe(true)
             expect(callback.calledOnce).toBe(true)
             expect(callback.calledWith(null, "text")).toBe(true)
+        })
+
+        it("should encrypt the text (Promise)", done => {
+            encrypt("text", 1).then(message => {
+                expect(message).toBe("ufyu")
+                done()
+            })
+        })
+
+        it("should encrypt the text (Callback)", () => {
+            let callback = sinon.spy();
+            encrypt("text", 1, callback)
+            expect(callback.called).toBe(true)
+            expect(callback.calledOnce).toBe(true)
+            expect(callback.calledWith(null, "ufyu")).toBe(true)
+        })
+
+        it("should encrypt alphanumeric text (Promise)", done => {
+            encrypt("text123", 1).then(message => {
+                expect(message).toBe("ufyu234")
+                done()
+            })
+        })
+
+        it("should encrypt alphanumeric text with negative key (Promise)", done => {
+            encrypt("text123", -1).then(message => {
+                expect(message).toBe("sdws012")
+                done()
+            })
         })
     })
 
