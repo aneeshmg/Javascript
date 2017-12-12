@@ -24,24 +24,27 @@
             padding-bottom: 5px;
             font-size: 20px;
         }
+
         .box {
-                position: absolute;
-                top: 10%;
-                border: 1px solid #fff;
-                color: #fff;
-                padding: 5px;
-                width: 10%;
-                height: 10%;
-                text-align: center;
-                font-size: 20px;
-                background-color: #000;
-            }
-            #score {
-                left: 7%;
-            }
-            #hi-score {
-                left: 82%;
-            }
+            position: absolute;
+            top: 10%;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 5px;
+            width: 10%;
+            height: 10%;
+            text-align: center;
+            font-size: 20px;
+            background-color: #000;
+        }
+
+        #score {
+            left: 7%;
+        }
+
+        #hi-score {
+            left: 82%;
+        }
     </style>
 </head>
 
@@ -49,8 +52,12 @@
     <center>
         <header>SpaceInvaders</header>
         <br>
-        <div class="box" id="score">Score<div id='score-value'></div></div>
-        <div class="box" id="hi-score">High Score<div id='hi-score-value'></div></div>
+        <div class="box" id="score">Score
+            <div id='score-value'></div>
+        </div>
+        <div class="box" id="hi-score">High Score
+            <div id='hi-score-value'></div>
+        </div>
     </center>
     <script src="../libs/p5.min.js"></script>
     <script src="SpaceInvaders.js"></script>

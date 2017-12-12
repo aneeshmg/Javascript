@@ -3,6 +3,10 @@ let field = []
 let bullets = []
 let ship;
 let score
+let hiScore = 0
+let scoreBox
+let hiScoreBox
+let isGameOver
 
 // TODO: major refactoring
 
@@ -12,18 +16,25 @@ function setup() {
     ship = new Ship(randomColor(), randomColor())
 
     score = 0
+
+    scoreBox = document.getElementById('score-value')
+    hiScoreBox = document.getElementById('hi-score-value')
+    scoreBox.innerText = score;
+    hiScoreBox.innerText = hiScore;
+
+    isGameOver = false
 }
 
 function draw() {
-    background(55)
+    background(0)
 
     handleKeys()
 
-    if(frameCount % 30 === 0) {
-        if(random() > 0.7){
+    if (frameCount % 30 === 0) {
+        if (random() > 0.7) {
             let r = random()
-            let x = r > 0.5? random(width) : random() > 0.5? 0 : width
-            let y = r < 0.5? random(height) : random() > 0.5? 0 : height
+            let x = r > 0.5 ? random(width) : random() > 0.5 ? 0 : width
+            let y = r < 0.5 ? random(height) : random() > 0.5 ? 0 : height
             field.push(new Asteroid(x, y, noise(frameCount) * 100, randomColor()))
         }
     }
@@ -57,11 +68,14 @@ function draw() {
     ship.update()
     ship.draw()
 
-    noStroke()
-    fill(255)
-    textSize(30)
-    textAlign("LEFT")
-    text(score, 50, 100)
+    // Uncomment to show score on screen
+    // noStroke()
+    // fill(255)
+    // textSize(30)
+    // textAlign("LEFT")
+    // text(score, 50, 100)
+
+    scoreBox.innerText = score;
 }
 
 function keyPressed() {
@@ -86,11 +100,31 @@ function handleKeys() {
 function endGame() {
 
     noLoop()
-    noStroke()
+    // noStroke looks kinda cool
+    // noStroke()
     fill(255)
-    textSize(50)
+    textSize(80)
     // TODO: fix this (alignment not in center - something to do with improper use of 'translate')
-    text("Game over", width / 2, height / 2)
+
+    if (score > hiScore) {
+        hiScore = score
+        hiScoreBox.innerText = hiScore
+    }
+
+    text("Game over", width / 2 - 200, height / 2 + 100)
+    // if (!isGameOver) {
+
+    //     if (confirm("Spaceshuttle destroyed!!\nRestart game?")) {
+    //         setup()
+    //         draw()
+    //         loop()
+    //         // break
+    //     } else {
+    //         noLoop()
+    //         isGameOver = true
+    //     }
+    // }
+
 }
 
 function randomColor() {
@@ -123,9 +157,9 @@ Asteroid.prototype.update = function () {
 
 Asteroid.prototype.draw = function () {
 
-    fill(51)
+    fill(0)
     stroke(this.color)
-    strokeWeight(5)
+    strokeWeight(1)
     ellipse(this.pos.x, this.pos.y, this.size)
 
 }
