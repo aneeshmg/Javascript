@@ -1,5 +1,6 @@
 const utils = require("../utils")
 
 module.exports = input => {
-    return 0
+    if(utils.isPalindrome(input)) return 0
+    else return 1
 }
