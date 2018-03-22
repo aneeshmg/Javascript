@@ -1,14 +1,19 @@
 const utils = require("./")
 
-// Test 'arraysEqual(array1, array2)'
-let a1 = [0, 1, 2, 3, 4]
-let b1 = [0, 1, 2, 3, 4]
-if(utils.arraysEqual(a1, b1)) {
-    console.log("arraysEqual test 1 - passing")
-}
-else console.log("arraysEqual test 1 - failed")
+describe("Test cases for utils", () => {
+    // Test 'arraysEqual(array1, array2)'
+    it("should compare two arrays and return true if arrays are equal", () => {
+        expect(utils.arraysEqual([0, 1, 2, 3, 4], [0, 1, 2, 3, 4])).toBe(true)
+    })
+    it("should return false if the two arrays are not equal", () => {
+        expect(utils.arraysEqual([0, 1, 2, 3, 4], [])).toBe(false)
+    })
 
-if(!utils.arraysEqual(a1, [])) {
-    console.log("arraysEqual test 2 - passing")
-}
-else console.log("arraysEqual test 1 - failed")
+    // Test 'isPalindrome(string)'
+    it("should verify that the string is a palindrome", () => {
+        expect(utils.isPalindrome("malayalam")).toBe(true)
+    })
+    it("should return false when string is not a palindrome", () => {
+        expect(utils.isPalindrome("abcd")).toBe(false)
+    })
+})

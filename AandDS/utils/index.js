@@ -16,6 +16,11 @@ function arraysEqual(a, b) {
     return true;
   }
 
+  function isPalindrome(text) {
+    return text === text.split("").reverse().join("")
+  }
+
 module.exports = {
-    arraysEqual: arraysEqual
+    arraysEqual: arraysEqual,
+    isPalindrome: isPalindrome
 }
