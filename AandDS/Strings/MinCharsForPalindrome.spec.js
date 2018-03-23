@@ -11,4 +11,7 @@ describe("Tests for an algorithm to find the least number of characters to be ad
     it("case 3: abcde", () => {
         expect(program("abcde")).toBe(4)
     })
+    it("case 4: abca", () => {
+        expect(program("abca")).toBe(3)
+    })
 })
