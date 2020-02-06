@@ -1,22 +1,40 @@
-var $container = document.getElementById('container')
 
-// create Deck
-var deck = Deck()
 
-// add to DOM
-deck.mount($container)
+function initialize() {
+    let $container = document.getElementById('container')
+    let arena = document.getElementById('arena')
 
-deck.cards.forEach(function (card, i) {
-    card.setSide('front')
-    card.enableDragging()
+    let deck = Deck()
+    deck.mount($container)
 
-    // explode
-    card.animateTo({
-        delay: 1000 + i * 2, // wait 1 second + i * 2 ms
-        duration: 800,
-        ease: 'quartOut',
+    deck.shuffle()
+    deck.bysuit()
+    deck.flip()
 
-        x: Math.random() * window.innerWidth - window.innerWidth / 2,
-        y: Math.random() * window.innerHeight - window.innerHeight / 2
+    console.log(deck.cards[0])
+
+    $container.addEventListener("click", function(e) {
+        console.log(e)
     })
-})
+
+    deck.cards.forEach(card => {
+        card.enableDragging()
+
+        
+    })
+    console.log(deck)
+
+    // console.log($container)
+
+
+    console.log(deck.$el)
+}
+
+function Game() {
+
+    initialize()
+
+
+}
+
+Game()
