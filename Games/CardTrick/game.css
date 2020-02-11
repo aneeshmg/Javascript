@@ -1,6 +1,12 @@
-#arena {
-    width: 80%;
-    height: 40%;
+body {
+    background-color: darkred;
+    color: beige;
+    font-family: monospace;
+}
+
+#arena, #pool {
+    width: 90%;
+    height: auto;
     border: 2px solid white;
     transition: .2s;
 }
