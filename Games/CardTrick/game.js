@@ -63,7 +63,8 @@ function initialize() {
         'TS'
     ]
 
-    let html = cards.reduce((acc, curr) => acc += `<img id=${curr} class='card' src='cards/${curr}.svg'>`, '')
+    let html = cards.reduce((acc, curr) => acc += `<img id=${curr} class='card' src='cards/${curr}.svg'>`, `<div class="hand hhand" data-hand='flow: horizontal; spacing: 1.1; width: 90;'>`)
+    html += '</div>'
     // TODO: Shuffle cards here
 
     $('#pool').append(html)
@@ -82,7 +83,7 @@ function selectCards() {
 
         $(this).remove()
 
-        if (selectedCards.length == 3)
+        if (selectedCards.length == 21)
             arrangeCards(selectedCards)
     })
 }
@@ -92,17 +93,37 @@ function arrangeCards(selectedCards) {
     $('#pool').html('')
 
     let html = selectedCards.reduce((acc, curr, i) => {
-        switch (i % 3) {
-            case 0: acc += ``
-            case 1: acc += ``
-            case 2: acc += ``
+        let row = ''
+        switch (i) {
+            case 0: row = 'r0'
+                break
+            case 7: row = 'r1'
+                break
+            case 14: row = 'r2'
+                break
         }
-    }, '')
+        if (i % 7 == 0) acc += `<div class="hand vhand-compact" id='${row}'>`
 
+            acc += `<img id='${curr}' class='card' src='cards/${curr}.svg'>`
+        if (i == 6 || i == 13 || i == 20) acc += '</div>'
+        return acc
+    }, '<div>')
 
+    html += '</div>'
     $('#pool').append(html)
 
+    $('#header').text('Click on the row your card appears on!')
+
+    $('.vhand-compact').click(function() {
+        let row = $(this).attr('id')
+        let selectedRowCards = []
+        $(`#${row} img`).map(function() { selectedRowCards.push(this.id) })
+        console.log(selectedRowCards)
+    })
+
 }
+
+// function selectionOne()
 
 function Game() {
 

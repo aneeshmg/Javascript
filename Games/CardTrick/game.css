@@ -1,17 +1,35 @@
 body {
-    background-color: darkred;
+    background-color: black;
     color: beige;
     font-family: monospace;
 }
 
-#arena, #pool {
+#pool {
     width: 90%;
-    height: auto;
+    height: 60%;
+    padding: 3%;
+    background-color: lightcoral;
     border: 2px solid white;
     transition: .2s;
 }
 
-#arena:hover {
-    background: lightcoral;
+#pool:hover {
+    background: darkred;
     transition: .3s;
+}
+
+.vhand-compact img.card {
+    transform: scale(1.8);
+    padding-top: 10%;
+    margin-top: -50px;
+}
+
+#r0, #r1, #r2 {
+    padding: 5%;
+    transition: .2s;
+    border: 2px solid whitesmoke;
+}
+#r0:hover, #r1:hover, #r2:hover {
+    cursor: pointer;
+    background-color: lightcoral;
 }
