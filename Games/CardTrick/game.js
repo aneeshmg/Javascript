@@ -92,7 +92,7 @@ function arrangeCards(selectedCards, stage = 0) {
     // Reset the pool
     $('#pool').html('')
 
-    alert("In the next screen, pick a card (in mind) and remember it.")
+    if (stage == 0) alert("In the next screen, pick a card (in mind) and remember it.")
 
     let html = selectedCards.reduce((acc, curr, i) => {
         switch (i % 3) {
