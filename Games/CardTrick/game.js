@@ -92,8 +92,6 @@ function arrangeCards(selectedCards, stage = 0) {
     // Reset the pool
     $('#pool').html('')
 
-    alert("Pick a card (don't click) and keep it in mind. And follow the instructions above.")
-
     let html = selectedCards.reduce((acc, curr, i) => {
         switch (i % 3) {
             case 0: acc += `<div class="hand row" data-hand='flow: horizontal; spacing: 1.1; width: 90;'>
@@ -108,6 +106,8 @@ function arrangeCards(selectedCards, stage = 0) {
         return acc
     }, '')
     $('#pool').append(html)
+
+    alert("Pick a card (don't click) and keep it in mind. And follow the instructions above.")
 
     magic(stage)
 }
@@ -161,7 +161,7 @@ function showSelectedCard(arrangement) {
     $('#header').text(magicSpell)
 
     $('#play-again').click(function() {
-        initialize()
+        arrangeCards(shuffle(arrangement))
     })
 }
 
