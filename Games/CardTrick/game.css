@@ -6,7 +6,7 @@ body {
 
 #pool {
     width: 90%;
-    height: 60%;
+    height: 70%;
     padding: 3%;
     background-color: lightcoral;
     border: 2px solid white;
@@ -18,18 +18,39 @@ body {
     transition: .3s;
 }
 
-.vhand-compact img.card {
-    transform: scale(1.8);
-    padding-top: 10%;
-    margin-top: -50px;
+.row .card {
+    padding: .5%;
+    margin-top: -10px;
+    padding-left: 1%;
+    padding-right: 1%;
+    transform: scale(1.3);
+    transition: .3s;
+    cursor: pointer;
 }
 
-#r0, #r1, #r2 {
-    padding: 5%;
-    transition: .2s;
-    border: 2px solid whitesmoke;
+.row .card:hover {
+    transform: scale(1.5);
 }
-#r0:hover, #r1:hover, #r2:hover {
+
+.result img {
+    margin-top: 10%;
+    margin-bottom: 5%;
+    transform: scale(2.5)
+}
+
+#play-again {
+    padding: 2%;
+    width: 10%;
+    background-color: black;
+    transition: .3s;
+    color: beige;
+    font-size: x-large;
+    font-family: monospace;
+    border: none;
     cursor: pointer;
-    background-color: lightcoral;
+}
+
+#play-again:hover {
+    box-shadow: 1px 1px 10px beige;
+    transition: .2s;
 }

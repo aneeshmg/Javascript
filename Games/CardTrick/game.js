@@ -1,8 +1,7 @@
 
-
 function initialize() {
-    console.log('Initializing...')
 
+    $('#pool').html('')
 
     let cards = [
         '10C',
@@ -63,14 +62,15 @@ function initialize() {
         'TS'
     ]
 
+    cards = shuffle(cards)
+
     let html = cards.reduce((acc, curr) => acc += `<img id=${curr} class='card' src='cards/${curr}.svg'>`, `<div class="hand hhand" data-hand='flow: horizontal; spacing: 1.1; width: 90;'>`)
     html += '</div>'
-    // TODO: Shuffle cards here
 
     $('#pool').append(html)
+    $('#header').text('Select any 21 cards by clicking on them cards')
 
     selectCards()
-
 }
 
 function selectCards() {
@@ -88,48 +88,92 @@ function selectCards() {
     })
 }
 
-function arrangeCards(selectedCards) {
+function arrangeCards(selectedCards, stage = 0) {
     // Reset the pool
     $('#pool').html('')
 
     let html = selectedCards.reduce((acc, curr, i) => {
-        let row = ''
-        switch (i) {
-            case 0: row = 'r0'
+        switch (i % 3) {
+            case 0: acc += `<div class="hand row" data-hand='flow: horizontal; spacing: 1.1; width: 90;'>
+                                <img id='${curr}-0' class='card' src='cards/${curr}.svg'>`
                 break
-            case 7: row = 'r1'
+            case 1: acc += `    <img id='${curr}-1' class='card' src='cards/${curr}.svg'>`
                 break
-            case 14: row = 'r2'
+            case 2: acc += `    <img id='${curr}-2' class='card' src='cards/${curr}.svg'>
+                            </div><br>`
                 break
         }
-        if (i % 7 == 0) acc += `<div class="hand vhand-compact" id='${row}'>`
-
-            acc += `<img id='${curr}' class='card' src='cards/${curr}.svg'>`
-        if (i == 6 || i == 13 || i == 20) acc += '</div>'
         return acc
-    }, '<div>')
-
-    html += '</div>'
+    }, '')
     $('#pool').append(html)
 
-    $('#header').text('Click on the row your card appears on!')
-
-    $('.vhand-compact').click(function() {
-        let row = $(this).attr('id')
-        let selectedRowCards = []
-        $(`#${row} img`).map(function() { selectedRowCards.push(this.id) })
-        console.log(selectedRowCards)
-    })
-
+    magic(stage)
 }
 
-// function selectionOne()
+function magic(stage) {
+
+    $('#header').text('Click on any card in the column your card appears on!')
+
+    $('.hand .card').click(function() {
+        let col = parseInt($(this).attr('id').split('-')[1])
+
+        let selectedColCards = []
+        $('.hand .card').filter(function() {
+            return parseInt(this.id.split('-')[1]) == col
+        }).map(function() { selectedColCards.push(this.id.split('-')[0]) })
+
+        let unselectedCards = []
+        $('.hand .card').filter(function() {
+            return parseInt(this.id.split('-')[1]) != col
+        }).map(function() { unselectedCards.push(this.id) })
+
+        let c0 = unselectedCards.filter(e => parseInt(e.split('-')[1]) == 0).map(e => e.split('-')[0])
+        let c1 = unselectedCards.filter(e => parseInt(e.split('-')[1]) == 1).map(e => e.split('-')[0])
+        let c2 = unselectedCards.filter(e => parseInt(e.split('-')[1]) == 2).map(e => e.split('-')[0])
+
+        let arrangement = []
+        if (c0.length == 0) arrangement = c1.concat(selectedColCards, c2)
+        else if (c1.length == 0) arrangement = c0.concat(selectedColCards, c2)
+        else arrangement = c0.concat(selectedColCards, c1)
+
+        if (stage >= 2) showSelectedCard(arrangement)
+
+        if (stage < 2) arrangeCards(arrangement, ++stage)
+
+    })
+}
+
+function showSelectedCard(arrangement) {
+    const magicSpell = "Bazzingaa!"
+
+    const card = arrangement[magicSpell.length]
+
+    $('#pool').html(`
+        <div class="result">
+            <img class='card' src='cards/${card}.svg'></img>
+            <h1>This is your card!</h1>
+            <button id="play-again">Play again</button>
+        </div>
+    `)
+
+    $('#header').text(magicSpell)
+
+    $('#play-again').click(function() {
+        initialize()
+    })
+}
+
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
 
 function Game() {
 
     initialize()
-
-
 }
 
 $(document).ready(Game())
