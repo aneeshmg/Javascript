@@ -1,6 +1,7 @@
 function begin() {
     let d = new Date()
-    const interval = 20 * 60 * 1000
+    const hydrationInterval = 20 * 60 * 1000 // 20 minutes - parameterize this?
+    const movementInterval = 37 * 60 * 1000 // 30 minutes
 
     hydrate()
 
@@ -8,7 +9,8 @@ function begin() {
     $('#message').text('Hydrate when you hear a drink being poured!')
 
     setInterval(refreshTime, 1000)
-    setInterval(hydrate, interval)
+    setInterval(hydrate, hydrationInterval)
+    setInterval(moveAround, movementInterval)
 }
 
 function refreshTime() {
@@ -22,6 +24,16 @@ function hydrate() {
     })
 
     alert("Drink water!")
+
+    sound.play()
+}
+
+function moveAround() {
+    const sound = new Howl({
+        src: ['./gong.mp3']
+    })
+
+    alert("Look away, take a walk, move!")
 
     sound.play()
 }
