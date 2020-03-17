@@ -3,6 +3,8 @@
     padding: 0;
     box-sizing: border-box;
     font-family: monospace;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
 }
 
 body {
@@ -104,4 +106,16 @@ header p {
 #message {
     font-size: x-large;
     flex: 1;
+}
+
+.kick, .snare, .clap, .tom, .crash {
+    flex-direction: column;
+}
+.kick input, .snare input, .clap input, .tom input, .crash input {
+    margin: 30px;
+    transform: scale(2)
+}
+
+span {
+    font-size: larger;
 }

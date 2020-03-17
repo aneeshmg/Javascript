@@ -99,6 +99,37 @@ window.addEventListener("load", () => {
         return randomVoice
     }
 
-
     btn.addEventListener("click", () => recog.start())
 })
+function sequncer() {
+    const kick = new Tone.Player('./sounds/kick-plain.wav').toMaster()
+    const snare = new Tone.Player('./sounds/snare-dist03.wav').toMaster()
+    const clap = new Tone.Player('./sounds/clap-808.wav').toMaster()
+    const tom = new Tone.Player('./sounds/tom-acoustic01.wav').toMaster()
+    const crash = new Tone.Player('./sounds/crash-tape.wav').toMaster()
+
+    let index = 0
+
+    Tone.Transport.scheduleRepeat(repeat, '8n')
+    Tone.Transport.start()
+
+    function repeat() {
+        let step = index % 8
+
+        let kickInputs = document.querySelector(`.kick input:nth-child(${step + 1})`)
+        let snareInputs = document.querySelector(`.snare input:nth-child(${step + 1})`)
+        let clapInputs = document.querySelector(`.clap input:nth-child(${step + 1})`)
+        let tomInputs = document.querySelector(`.tom input:nth-child(${step + 1})`)
+        let crashInputs = document.querySelector(`.crash input:nth-child(${step + 1})`)
+
+        if (kickInputs.checked) kick.start()
+        if (snareInputs.checked) snare.start()
+        if (clapInputs.checked) clap.start()
+        if (tomInputs.checked) tom.start()
+        if (crashInputs.checked) crash.start()
+
+        index++
+    }
+
+}
+sequncer()
