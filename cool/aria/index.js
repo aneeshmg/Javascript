@@ -103,7 +103,7 @@ window.addEventListener("load", () => {
 
     document.onkeypress = function (e) {
         e = e || window.event;
-        console.log(e.keyCode)
+        // console.log(e.keyCode)
         let sound;
 
         switch (e.keyCode) {
