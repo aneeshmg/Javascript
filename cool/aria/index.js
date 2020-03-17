@@ -100,6 +100,44 @@ window.addEventListener("load", () => {
     }
 
     btn.addEventListener("click", () => recog.start())
+
+    document.onkeypress = function (e) {
+        e = e || window.event;
+        console.log(e.keyCode)
+        let sound;
+
+        switch (e.keyCode) {
+            case 97: sound = new Audio('./sounds/kick-plain.wav')
+                break //A
+            case 115: sound = new Audio('./sounds/clap-808.wav') //S
+                break
+            case 102: sound = new Audio('./sounds/snare-dist02.wav') //D
+                break
+            case 104: sound = new Audio('./sounds/tom-acoustic02.wav') //F
+                break
+            case 106: sound = new Audio('./sounds/tom-acoustic01.wav') //J
+                break
+            case 107: sound = new Audio('./sounds/snare-dist03.wav') //K
+                break
+            case 108: sound = new Audio('./sounds/kick-plain.wav') //L
+                break
+            case 116: sound = new Audio('./sounds/hihat-808.wav') //T
+                break
+            case 32: sound = new Audio('./sounds/crash-tape.wav') //<Space>
+                break
+            case 105: sound = new Audio('./sounds/snare-smasher.wav') //I
+                break
+            case 113: sound = new Audio('./sounds/crash-acoustic.wav') //Q
+                break
+            case 101: sound = new Audio('./sounds/ride-acoustic01.wav') //E
+                break
+            case 112: sound = new Audio('./sounds/ride-acoustic02.wav') //P
+                break
+        }
+
+        sound.currentTime = 0
+        sound.play()
+    };
 })
 function sequncer() {
     const kick = new Tone.Player('./sounds/kick-plain.wav').toMaster()
