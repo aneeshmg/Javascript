@@ -11,7 +11,7 @@ Some cool stuff
 * [Commandline movie finder](https://github.com/aneeshmg/Python/blob/master/MovieSearch/Program.py)
 * [A text entailment problem](https://github.com/aneeshmg/Python/tree/master/NLP-TextEntailment)
 * [Prayukti](https://prayukti.aneeshmg.com) - Find motivation [[source](https://github.com/aneeshmg/prayukti)] [[api](https://prayukti.aneeshmg.com/api)]
-* [Generate music](https://aneeshmg.github.io/Javascript/cool/aria/)
+* [Aria - Generate music](https://aneeshmg.github.io/Javascript/cool/aria/)
 
 _more to come..._
 
