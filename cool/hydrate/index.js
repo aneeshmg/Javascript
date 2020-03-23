@@ -1,7 +1,7 @@
-function begin() {
+function begin(hInterval = 20 * 60 * 1000, mInterval = 37 * 60 * 1000) {
     let d = new Date()
-    const hydrationInterval = 20 * 60 * 1000 // 20 minutes - parameterize this?
-    const movementInterval = 37 * 60 * 1000 // 30 minutes
+    const hydrationInterval =  hInterval // 20 minutes - parameterize this?
+    const movementInterval =  mInterval // 30 minutes
 
     hydrate()
 
@@ -38,4 +38,26 @@ function moveAround() {
     sound.play()
 }
 
-$(document).ready(begin())
+$(document).ready(function () {
+    begin()
+
+    $('#h-interval').click(function() {
+        let oldInterval = parseInt($('#h-interval').text())
+        let newInterval = prompt("Enter new interval:", oldInterval)
+        let temp = parseInt($('#m-interval').text())
+
+        $('#h-interval').text(newInterval)
+
+        begin(newInterval * 60 * 1000, temp * 60 * 1000)
+    })
+
+    $('#m-interval').click(function() {
+        let oldInterval = parseInt($('#m-interval').text())
+        let newInterval = prompt("Enter new interval:", oldInterval)
+        let temp = parseInt($('#h-interval').text())
+
+        $('#m-interval').text(newInterval)
+
+        begin(temp * 60 * 1000, newInterval * 60 * 1000)
+    })
+})
