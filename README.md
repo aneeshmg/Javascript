@@ -12,6 +12,7 @@ Some cool stuff
 * [A text entailment problem](https://github.com/aneeshmg/Python/tree/master/NLP-TextEntailment)
 * [Prayukti](https://prayukti.aneeshmg.com) - Find motivation [[source](https://github.com/aneeshmg/prayukti)] [[api](https://prayukti.aneeshmg.com/api)]
 * [Aria - Generate music](https://aneeshmg.github.io/Javascript/cool/aria/)
+* [Invisible Dice Trick](https://aneeshmg.github.io/Javascript/Games/InvisibleDice/)
 
 _more to come..._
 
