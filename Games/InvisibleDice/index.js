@@ -4,9 +4,10 @@ const init = () => {
 
     const message = `Roll your imaginary pair of dice!`
     $('#message-box').text(message)
+    $('#done').text('Done')
 
     $('#done').click(() => {
-        const message = `Pick the larger of the two numbers (either if equal) and multiply them by 2.`
+        const message = `Pick the larger of the two numbers (either if equal) and multiply it by 2.`
         $('#message-box').text(message)
         stageTwo()
     })
@@ -52,11 +53,15 @@ const reveal = magic => {
 }
 
 const showDice = (first, second) => {
-    first = parseInt(first)
-    second = parseInt(second)
-    console.log(first, second)
-    if (first < 1 || second < 1) init()
-    else $('#message-box').text(`${first} , ${second}`)
+    if (first < 1 || second < 1 || first > 6 || second > 6) init()
+    else {
+        const message = `<div class="dice">
+                            <div class="die" id="die-1">${first}</div>
+                            <div class="die" id="die-2">${second}</div>
+                        </div>`
+        $('#message-box').html(message)
+        $('#done').text("Play again")
+    }
 
     $('#done').click(init)
 }
