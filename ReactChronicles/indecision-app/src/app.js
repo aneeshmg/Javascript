@@ -6,6 +6,8 @@ const app = {
     options: ['one', 'two']
 }
 
+const nums = [99, 98, 97]
+
 const appRoot = document.getElementById("app");
 
 const renderIt = () => {
@@ -17,8 +19,11 @@ const renderIt = () => {
             <p>{app.options.length}</p>
             <button onClick={removeAll}>Remove all</button>
             <ol>
-                <li>First item</li>
-                <li>Second item</li>
+            {
+                app.options.map((option, i) => {
+                    return <li key={i}>Option: {option}</li>
+                })
+            }
             </ol>
             <form onSubmit={onFormSubmit}>
                 <input type="text" name="option"></input>

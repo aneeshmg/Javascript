@@ -8,6 +8,8 @@ var app = {
     options: ['one', 'two']
 };
 
+var nums = [99, 98, 97];
+
 var appRoot = document.getElementById("app");
 
 var renderIt = function renderIt() {
@@ -42,16 +44,14 @@ var renderIt = function renderIt() {
         React.createElement(
             "ol",
             null,
-            React.createElement(
-                "li",
-                null,
-                "First item"
-            ),
-            React.createElement(
-                "li",
-                null,
-                "Second item"
-            )
+            app.options.map(function (option, i) {
+                return React.createElement(
+                    "li",
+                    { key: i },
+                    "Option: ",
+                    option
+                );
+            })
         ),
         React.createElement(
             "form",
