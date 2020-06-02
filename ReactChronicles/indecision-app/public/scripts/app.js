@@ -8,102 +8,80 @@ var app = {
     options: ['one', 'two']
 };
 
-var template = React.createElement(
-    "div",
-    null,
-    React.createElement(
-        "h1",
-        null,
-        app.title
-    ),
-    app.subtitle && React.createElement(
-        "p",
-        null,
-        app.subtitle
-    ),
-    React.createElement(
-        "p",
-        null,
-        app.options.length > 1 ? 'Here are options' : 'None'
-    ),
-    React.createElement(
-        "ol",
-        null,
-        React.createElement(
-            "li",
-            null,
-            "First item"
-        ),
-        React.createElement(
-            "li",
-            null,
-            "Second item"
-        )
-    )
-);
-
-// var userName = "Aneesh"
-// var userAge = 26
-// var userLocation = "Tempe"
-
-var user = {
-    name: "Aneesh",
-    age: 26,
-    location: "Tempe"
-};
-
-function getLocation(location) {
-    if (location) return React.createElement(
-        "p",
-        null,
-        "Location: ",
-        location
-    );
-}
-
-var count = 0;
-var addOne = function addOne() {
-    count++;
-    renderCounter();
-};
-var minusOne = function minusOne() {
-    count--;
-    renderCounter();
-};
-var reset = function reset() {
-    count = 0;
-    renderCounter();
-};
-
 var appRoot = document.getElementById("app");
 
-var renderCounter = function renderCounter() {
-    var templateTwo = React.createElement(
+var renderIt = function renderIt() {
+    var template = React.createElement(
         "div",
         null,
         React.createElement(
             "h1",
             null,
-            "Count: ",
-            count
+            app.title
+        ),
+        app.subtitle && React.createElement(
+            "p",
+            null,
+            app.subtitle
+        ),
+        React.createElement(
+            "p",
+            null,
+            app.options.length > 1 ? 'Here are options' : 'None'
+        ),
+        React.createElement(
+            "p",
+            null,
+            app.options.length
         ),
         React.createElement(
             "button",
-            { onClick: addOne, className: "button" },
-            "+1"
+            { onClick: removeAll },
+            "Remove all"
         ),
         React.createElement(
-            "button",
-            { onClick: minusOne, className: "button" },
-            "-1"
+            "ol",
+            null,
+            React.createElement(
+                "li",
+                null,
+                "First item"
+            ),
+            React.createElement(
+                "li",
+                null,
+                "Second item"
+            )
         ),
         React.createElement(
-            "button",
-            { onClick: reset, className: "button" },
-            "reset"
+            "form",
+            { onSubmit: onFormSubmit },
+            React.createElement("input", { type: "text", name: "option" }),
+            React.createElement(
+                "button",
+                null,
+                "Add option"
+            )
         )
     );
-    ReactDOM.render(templateTwo, appRoot);
+    ReactDOM.render(template, appRoot);
 };
 
-renderCounter();
+var removeAll = function removeAll() {
+    app.options = [];
+    renderIt();
+};
+
+var onFormSubmit = function onFormSubmit(e) {
+    e.preventDefault();
+
+    var option = e.target.elements.option.value;
+
+    if (option) {
+        app.options.push(option);
+        e.target.elements.option.value = '';
+    }
+    renderIt();
+};
+
+renderIt();
