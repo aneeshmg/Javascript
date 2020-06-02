@@ -3,7 +3,7 @@ console.log("hello")
 const app = {
     title: "Indecision App",
     subtitle: "Put your life in the hands of a computer",
-    options: ['one', 'two']
+    options: []
 }
 
 const nums = [99, 98, 97]
@@ -16,12 +16,12 @@ const renderIt = () => {
             <h1>{app.title}</h1>
             {app.subtitle && <p>{app.subtitle}</p>}
             <p>{app.options.length > 1 ? 'Here are options' : 'None'}</p>
-            <p>{app.options.length}</p>
+            <button disabled={app.options.length == 0} onClick={onMakeDecision}>What should I do?</button>
             <button onClick={removeAll}>Remove all</button>
             <ol>
             {
                 app.options.map((option, i) => {
-                    return <li key={i}>Option: {option}</li>
+                    return <li key={i}>{option}</li>
                 })
             }
             </ol>
@@ -39,6 +39,11 @@ const removeAll = () => {
     renderIt()
 }
 
+const onMakeDecision = e => {
+    const rand = Math.floor(Math.random() * app.options.length)
+    const option = app.options[rand]
+    alert(option)
+}
 const onFormSubmit = e => {
     e.preventDefault();
 

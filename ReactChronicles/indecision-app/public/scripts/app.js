@@ -5,7 +5,7 @@ console.log("hello");
 var app = {
     title: "Indecision App",
     subtitle: "Put your life in the hands of a computer",
-    options: ['one', 'two']
+    options: []
 };
 
 var nums = [99, 98, 97];
@@ -32,9 +32,9 @@ var renderIt = function renderIt() {
             app.options.length > 1 ? 'Here are options' : 'None'
         ),
         React.createElement(
-            "p",
-            null,
-            app.options.length
+            "button",
+            { disabled: app.options.length == 0, onClick: onMakeDecision },
+            "What should I do?"
         ),
         React.createElement(
             "button",
@@ -48,7 +48,6 @@ var renderIt = function renderIt() {
                 return React.createElement(
                     "li",
                     { key: i },
-                    "Option: ",
                     option
                 );
             })
@@ -72,6 +71,11 @@ var removeAll = function removeAll() {
     renderIt();
 };
 
+var onMakeDecision = function onMakeDecision(e) {
+    var rand = Math.floor(Math.random() * app.options.length);
+    var option = app.options[rand];
+    alert(option);
+};
 var onFormSubmit = function onFormSubmit(e) {
     e.preventDefault();
 
