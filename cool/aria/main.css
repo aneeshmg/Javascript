@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: monospace;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+body {
+    background-color: black;
+    color: white;
+}
+
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 50px 0px 30px 0px;
+    text-align: center;
+    font-size: 40px;
+}
+header p {
+    font-size: 25px;
+}
+
+.pads {
+    background: lightblue;
+    width: 100%;
+    display: flex;
+    cursor: pointer;
+}
+.pads > div {
+    height: 300px;
+    width: 100px;
+    flex: 1;
+}
+.pad1 {
+    background: #60d394;
+}
+.pad2 {
+    background: #d36060;
+}
+.pad3 {
+    background: #c060d3;
+}
+.pad4 {
+    background: #d3d160;
+}
+.pad5 {
+    background: #606bd3;
+}
+.pad6 {
+    background: #60c2d3;
+}
+
+
+.visual > div {
+    position: absolute;
+    bottom: 0%;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    transform: scale(1);
+    z-index: -1;
+}
+
+@keyframes jump {
+    0% {
+        bottom: 0%;
+        left: 20%;
+    }
+    50% {
+        bottom: 50%;
+        left: 50%;
+    }
+
+    100% {
+        bottom: 00%;
+        left: 80%;
+    }
+}
+
+.talk {
+    background-color: black;
+    padding: 30px;
+    color: azure;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5em;
+    box-shadow: 0px 0px .3px .3px azure;
+    width: 200px;
+    transition: .2s;
+    flex: 1;
+}
+.talk:hover {
+    transition: .3s;
+    border: 1px solid white;
+}
+
+#message {
+    font-size: x-large;
+    flex: 1;
+}
+
+.kick, .snare, .clap, .tom, .crash {
+    flex-direction: column;
+}
+.kick input, .snare input, .clap input, .tom input, .crash input {
+    margin: 30px;
+    transform: scale(2)
+}
+
+span {
+    font-size: larger;
+}
