@@ -1,14 +1,56 @@
 class IndecisionApp extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.handleDeleteOptions = this.handleDeleteOptions.bind(this)
+        this.handleClick = this.handleClick.bind(this)
+        this.handleOption = this.handleOption.bind(this)
+        this.state = {
+            options: []
+        }
+    }
+
+    handleDeleteOptions() {
+        this.setState(() => {
+            return {
+                options: []
+            }
+        })
+    }
+
+    handleClick() {
+        const rand = Math.floor(Math.random() * this.state.options.length)
+        const option = this.state.options[rand]
+        alert(option)
+    }
+
+    handleOption(option) {
+        if (!option) 
+            return `Enter valid option`
+        else if (this.state.options.indexOf(option) > -1)
+            return `Option already present`
+
+        this.setState(previousState => {
+            return {
+                options: previousState.options.concat(option)
+            }
+        })
+    }
     render() {
         const title = 'IndecisionApp'
         const subtitle = 'Put your life in the hands of a computer'
-        const options = ['option1', 'option2', 'option3']
         return (
             <div>
                 <Header title={title} subtitle={subtitle}/>
-                <Action />
-                <Options options={options}/>
-                <AddOption />
+                <Action 
+                    hasOptions={this.state.options.length > 0} 
+                    handleClick={this.handleClick}
+                />
+                <Options 
+                    options={this.state.options}
+                    handleDeleteOptions={this.handleDeleteOptions}
+                />
+                <AddOption handleOption={this.handleOption}/>
             </div>
         )
     }
@@ -29,7 +71,12 @@ class Action extends React.Component {
     render() {
         return (
             <div>
-                <button>What should i do?</button>
+                <button 
+                    onClick={this.props.handleClick}
+                    disabled={!this.props.hasOptions}
+                >
+                    What should i do?
+                </button>
             </div>
         )
     }
@@ -39,7 +86,7 @@ class Options extends React.Component {
     render() {
         return (
             <div>
-                Options component
+                <button onClick={this.props.handleDeleteOptions}>Remove All</button>
                 {this.props.options.map(option => <Option key={option} optionText={option} />)}
             </div>
         )
@@ -57,10 +104,35 @@ class Option extends React.Component {
 }
 
 class AddOption extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.state = {
+            error: undefined
+        }
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        const option = e.target.elements.option.value.trim()
+        if (option) {
+            const error = this.props.handleOption(option)
+            e.target.elements.option.value = ''
+            this.setState(() => {
+                return { error }
+            })
+        }
+    }
     render() {
+
         return (
             <div>
-                AddOption component
+                {this.state.error && <p>{this.state.error}</p>}
+                <form onSubmit={this.handleSubmit}>
+                    <input name="option" type="text"></input>
+                    <button>Add</button>
+                </form>
             </div>
         )
     }
