@@ -13,6 +13,7 @@ Some cool stuff
 * [Prayukti](https://prayukti.aneeshmg.com) - Find motivation [[source](https://github.com/aneeshmg/prayukti)] [[api](https://prayukti.aneeshmg.com/api)]
 * [Aria - Generate music](https://aneeshmg.github.io/Javascript/cool/aria/)
 * [Invisible Dice Trick](https://aneeshmg.github.io/Javascript/Games/InvisibleDice/)
+* [CardTrick2](http://aneeshmg.github.io/Javascript/Games/CardTrick2/)
 
 _more to come..._
 
