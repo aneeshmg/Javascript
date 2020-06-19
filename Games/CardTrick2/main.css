@@ -1,0 +1,19 @@
+body {
+    background-color: black;
+    color: beige;
+    font-family: monospace;
+}
+
+#pool {
+    width: 90%;
+    height: 70%;
+    padding: 3%;
+    background-color: lightcoral;
+    border: 2px solid white;
+    transition: .2s;
+}
+
+#pool:hover {
+    background: darkred;
+    transition: .3s;
+}
