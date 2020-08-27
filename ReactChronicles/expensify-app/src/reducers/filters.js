@@ -32,7 +32,7 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
         case 'SET_END_DATE':
             return {
                 ...state,
-                startEnd: action.date
+                endDate: action.date
             }
         default:
             return state
