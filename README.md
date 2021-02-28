@@ -14,6 +14,7 @@ Some cool stuff
 * [Aria - Generate music](https://aneeshmg.github.io/Javascript/cool/aria/)
 * [Invisible Dice Trick](https://aneeshmg.github.io/Javascript/Games/InvisibleDice/)
 * [CardTrick2](http://aneeshmg.github.io/Javascript/Games/CardTrick2/)
+* [CardTrick3](http://aneeshmg.github.io/Javascript/Games/CardTrick3/)
 
 _more to come..._
 
