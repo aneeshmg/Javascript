@@ -1,0 +1,30 @@
+body {
+    background-color: black;
+    color: beige;
+    font-family: monospace;
+}
+
+#pool {
+    width: 90%;
+    height: auto;
+    padding: 3%;
+    background-color: lightcoral;
+    border: 2px solid white;
+    transition: .2s;
+}
+
+#pool:hover {
+    background: darkred;
+    transition: .3s;
+}
+
+#header {
+    font-size: larger;
+    font-style: normal;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+#note, #knowmore {
+    font-size: medium;
+    font-style: italic;
+}
